@@ -1,4 +1,5 @@
 import { useState } from "react";
+import MessageBox from "../components/MessageBox";
 
 interface message {
     id: number;
@@ -34,39 +35,41 @@ export default function Messages() {
     }
 
     return (
-        <>
-            <div className="p-6 bg-green-600">
-                <div className="flex text-white p-6 justify-center text-3xl">
-                    <span className="mr-2">
-                        Bem-vindo 
-                    </span>
-                    <span className="font-bold"> 
-                        {localStorage.getItem('username')}
-                    </span>!
-                </div>
+      <>
+        <div className="flex flex-col min-h-screen bg-green-600">
+          <div className="flex text-white justify-center text-3xl items-center mt-5 mb-6">
+            <span className="mr-2">Bem-vindo</span>
+            <span className="font-bold">
+              {localStorage.getItem("username")}
+            </span>
+            !
+          </div>
 
-                <form 
-                    method="post"
-                    onSubmit={doSendMessage}
-                    className="mt-6 rounded"
-                >
-                    <input 
-                        type="text" 
-                        name="newMsg"
-                        id="newMsg"
-                        placeholder="Digite uma mensagem"
-                        className="mt-2 block rounded p-2 w-full"
-                    />
-                </form>
-            </div>
+          {
+            message.map((msg) => (
+              <MessageBox
+                key={msg.id}
+                username={msg.username}
+                message={msg.message}
+              />
+            ))
+          }
 
-            <div className="p-6">
-                {message.map((msg) => (
-                    <div className="mb-2 p-3 rounded bg-green-900 text-white">
-                        {msg?.username}: {msg?.message}
-                    </div>
-                ))} 
-            </div>
-        </>
+          <div className="mt-auto p-8 bg-green-900">
+            <form 
+                method="post" 
+                onSubmit={doSendMessage} 
+                className="rounded">
+              <input
+                type="text"
+                name="newMsg"
+                id="newMsg"
+                placeholder="Digite uma mensagem"
+                className="mt-2 block rounded p-2 w-full"
+              />
+            </form>
+          </div>
+        </div>
+      </>
     );
 }
