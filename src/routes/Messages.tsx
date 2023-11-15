@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MessageBox from "../components/MessageBox";
+import LogoutButton from "../components/LogoutButton";
 
 interface message {
     id: number;
@@ -18,18 +19,13 @@ export default function Messages() {
         const messageText = formData.get('newMsg') as string;
 
         if (messageText) {
-            console.log('===> doSendMessage - messageText:', messageText)
-
             const newMessage: message = {
                 id: messageText.length + 1,
                 message: messageText,
                 username: localStorage.getItem('username') as string,
             };
-
+            
             setMessage([...message, newMessage]);
-
-            console.log('===> doSendMessage - message:', message)
-
             form.reset();
         } 
     }
@@ -37,13 +33,22 @@ export default function Messages() {
     return (
       <>
         <div className="flex flex-col min-h-screen bg-green-600">
-          <div className="flex text-white justify-center text-3xl items-center mt-5 mb-6">
-            <span className="mr-2">Bem-vindo</span>
-            <span className="font-bold">
-              {localStorage.getItem("username")}
+          <div className="flex text-white justify-center items-center mt-5 mb-6">
+            <span className="mr-2 text-3xl">Bem-vindo</span>
+            <span className="font-bold text-3xl">
+              {localStorage.getItem("username")}!
             </span>
-            !
+            <div className="ml-5">
+              <LogoutButton />
+            </div>
           </div>
+
+          <MessageBox
+                key={5}
+                username={'Atendente'}
+                message={'Teste'}
+                fromLoggedUser={false}
+          />
 
           {
             message.map((msg) => (
@@ -51,6 +56,7 @@ export default function Messages() {
                 key={msg.id}
                 username={msg.username}
                 message={msg.message}
+                fromLoggedUser={msg.username === localStorage.getItem('username')}
               />
             ))
           }
