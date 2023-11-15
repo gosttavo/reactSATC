@@ -7,3 +7,8 @@
   <li>React Hooks</li>
   <li>Navegação com rotas</li>
 </ul>
+
+# Executar o projeto
+<p>Basta clonar o repositório e executar os comandos:</p>
+<pre>npm i</pre>
+<pre>npm run dev</pre>
